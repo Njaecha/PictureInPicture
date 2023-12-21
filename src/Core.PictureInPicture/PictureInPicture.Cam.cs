@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using Studio;
 
 namespace PictureInPicture
 {
@@ -11,6 +12,7 @@ namespace PictureInPicture
 
         public readonly Camera cam;
         public readonly RenderTexture renderTexture;
+        public OCICamera ociCamera { get; internal set; } = null;
 
         public PictureInPicture_Cam()
         {

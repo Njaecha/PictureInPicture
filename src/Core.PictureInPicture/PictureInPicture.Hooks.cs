@@ -15,8 +15,8 @@ namespace PictureInPicture
         [HarmonyPostfix]
         public static void CameraPostfix(OCICamera __result)
         {
-            __result.objectItem.AddComponent<PictureInPicture_Cam>();
-            __result.objectItem.layer = 30; // idk but I have to force that now
+            __result.objectItem.AddComponent<PictureInPicture_Cam>().ociCamera = __result;
+            __result.objectItem.layer = 30; // idk why, but I have to force this now
         }
     }
 }

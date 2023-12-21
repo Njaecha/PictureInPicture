@@ -17,7 +17,6 @@ namespace PictureInPicture
 
         ConfigEntry<KeyboardShortcut> addPip { get; set; }
 
-        List<KeyValuePair<GameObject, PictureInPicture_Picture>> pips = new List<KeyValuePair<GameObject, PictureInPicture_Picture>>();
         public static GameObject pipZoo;
 
         void Awake()
@@ -35,7 +34,7 @@ namespace PictureInPicture
             {
                 GameObject pipObject = new GameObject("PiP");
                 pipObject.transform.SetParent(pipZoo.transform);
-                pipObject.AddComponent<PictureInPicture_Picture>();
+                PictureInPicture_Picture pip = pipObject.AddComponent<PictureInPicture_Picture>();
             }
         }
     }
