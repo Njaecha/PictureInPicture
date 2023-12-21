@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core.PictureInPicture", "Core.PictureInPicture\Core.PictureInPicture.shproj", "{D6950B38-7E08-4347-B6B5-3234DAC24FCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KKS.PictureInPicture", "KKS.PictureInPicture\KKS.PictureInPicture.csproj", "{F6F49CAF-5620-4558-99D6-00AD43892988}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KK.PictureInPicture", "KK.PictureInPicture\KK.PictureInPicture.csproj", "{D0E4974C-5018-45BC-9C81-DFFBE281ACF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6F49CAF-5620-4558-99D6-00AD43892988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6F49CAF-5620-4558-99D6-00AD43892988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6F49CAF-5620-4558-99D6-00AD43892988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6F49CAF-5620-4558-99D6-00AD43892988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0E4974C-5018-45BC-9C81-DFFBE281ACF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0E4974C-5018-45BC-9C81-DFFBE281ACF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0E4974C-5018-45BC-9C81-DFFBE281ACF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0E4974C-5018-45BC-9C81-DFFBE281ACF9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {93CA6D9E-9ABA-4217-BA5A-E91A64AD4077}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Core.PictureInPicture\Core.PictureInPicture.projitems*{d0e4974c-5018-45bc-9c81-dffbe281acf9}*SharedItemsImports = 4
+		Core.PictureInPicture\Core.PictureInPicture.projitems*{d6950b38-7e08-4347-b6b5-3234dac24fca}*SharedItemsImports = 13
+		Core.PictureInPicture\Core.PictureInPicture.projitems*{f6f49caf-5620-4558-99d6-00ad43892988}*SharedItemsImports = 4
+	EndGlobalSection
+EndGlobal
