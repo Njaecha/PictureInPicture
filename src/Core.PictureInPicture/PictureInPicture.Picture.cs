@@ -9,11 +9,13 @@ namespace PictureInPicture
 {
     internal class PictureInPicture_Picture : MonoBehaviour
     {
-        private Texture tex;
-        Rect windowRect = new Rect(25,25,360,180);
+        private Texture texture;
+        Rect windowRect = new Rect(25,25,360,200);
         private int ID;
-        private string title;
+        private string title = "Picture In Picture";
         private bool selecting = false;
+
+        private PictureInPicture_Cam Cam = null;
 
         void Awake()
         {
@@ -25,19 +27,26 @@ namespace PictureInPicture
             SetTexture(tx);
         }
 
-        public void SetTexture(Texture2D texture)
+        public void SetTexture(Texture2D newTexture)
         {
-            tex = texture;
+            texture = newTexture;
+            windowRect.size = new Vector2(windowRect.width, newTexture.height * (windowRect.width/ newTexture.width)+20);
         }
 
-        public void SetTexture(RenderTexture texture)
+        public void SetTexture(RenderTexture newTexture)
         {
-            tex = texture;
+            texture = newTexture;
+            windowRect.size = new Vector2(windowRect.width, newTexture.height * (windowRect.width / newTexture.width)+20);
         }
 
         public void SetTitle(string title)
         {
             this.title = title;
+        }
+
+        public void resetAspect()
+        {
+            windowRect.size = new Vector2(windowRect.width, texture.height * (windowRect.width / texture.width)+20);
         }
 
         internal static OpenFileDialog.OpenSaveFileDialgueFlags SingleFileFlags =
@@ -49,20 +58,52 @@ namespace PictureInPicture
         {
             if (windowRect == null) { return; }
             windowRect = GUI.Window(ID, windowRect, WindowFunction, title, IMGUIUtils.SolidBackgroundGuiSkin.window);
+
+        }
+
+        private void WindowFunction(int WindowID)
+        {
+            GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+            buttonStyle.padding = new RectOffset(0,0,0,0);
+            buttonStyle.alignment = TextAnchor.MiddleCenter;
+
+            if (GUI.Button(new Rect(windowRect.width-18, 2, 15,15), "X", buttonStyle))
+            {
+                Destroy(this.gameObject);
+            }
+
+            if (GUI.Button(new Rect(windowRect.width - 35, 2, 15, 15), "R", buttonStyle))
+            {
+                resetAspect();
+            }
+            if (Cam == null) GUI.enabled = false;
+            if (GUI.Button(new Rect(windowRect.width - 52, 2, 15, 15), "E", buttonStyle))
+            {
+                if (Cam != null) Cam.updateACE();
+            }
+            GUI.enabled = true;
+
+            if (GUI.Button(new Rect(2,2, 70, 15), "Source", buttonStyle))
+            {
+                selecting = !selecting;
+            }
+
+            GUI.DrawTexture(new Rect(1,21, windowRect.width-2, windowRect.height - 22), texture);
+
             if (selecting)
             {
-                int height = PictureInPicture_Cam.cameras.Count * 22 + 40;
-                GUI.Box(new Rect(windowRect.position + new Vector2(0, 20), new Vector2(70, height)), "");
-                GUILayout.BeginArea(new Rect(0, 0, 70, height));
+                int height = PictureInPicture_Cam.cameras.Count * 24 + 20;
+                GUI.Box(new Rect(new Vector2(2, 20), new Vector2(74, height+4)), "");
+                GUILayout.BeginArea(new Rect(4, 22, 70, height));
                 GUILayout.BeginVertical();
-                if (GUILayout.Button("Choose Image"))
+                if (GUILayout.Button("Image"))
                 {
                     string[] file = OpenFileDialog.ShowDialog("Open Image", UserData.Path,
                         "Image files (*.png; *.jpg) |*.png; *.jpg | All files (*.*)|*.*",
                         "png", SingleFileFlags);
                     if (file != null && File.Exists(file[0]))
                     {
-                        Texture2D tex = new Texture2D(2,2);
+                        Texture2D tex = new Texture2D(2, 2);
 #if KK
                         tex.LoadImage(File.ReadAllBytes(file[0]));
 #elif KKS
@@ -71,34 +112,22 @@ namespace PictureInPicture
                         SetTexture(tex);
                         SetTitle(Path.GetFileName(file[0]));
                         selecting = false;
+                        Cam = null;
                     }
                 }
-                foreach(PictureInPicture_Cam cam in PictureInPicture_Cam.cameras)
+                foreach (PictureInPicture_Cam cam in PictureInPicture_Cam.cameras)
                 {
-                    if (GUILayout.Button(cam.ociCamera.name))
+                    if (GUILayout.Button(cam.ociCamera.name, GUILayout.Height(20)))
                     {
                         SetTexture(cam.renderTexture);
                         SetTitle(cam.ociCamera.name);
                         selecting = false;
+                        Cam = cam;
                     }
                 }
                 GUILayout.EndVertical();
                 GUILayout.EndArea();
             }
-        }
-
-        private void WindowFunction(int WindowID)
-        {
-            if (GUI.Button(new Rect(windowRect.width-20, 0, 20,20), "X"))
-            {
-                Destroy(this.gameObject);
-            }
-            if (GUI.Button(new Rect(0,0, 70, 20), "Select"))
-            {
-                selecting = true;
-            }
-
-            GUI.DrawTexture(new Rect(0,20, windowRect.width, windowRect.height - 20), tex);
 
             windowRect = IMGUIUtils.DragResizeEatWindow(ID, windowRect);
         }

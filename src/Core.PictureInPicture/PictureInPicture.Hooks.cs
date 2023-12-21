@@ -15,8 +15,11 @@ namespace PictureInPicture
         [HarmonyPostfix]
         public static void CameraPostfix(OCICamera __result)
         {
-            __result.objectItem.AddComponent<PictureInPicture_Cam>().ociCamera = __result;
-            __result.objectItem.layer = 30; // idk why, but I have to force this now
+            GameObject pipObj = new GameObject("PiP Camera");
+            pipObj.transform.SetParent(__result.objectItem.transform, false);
+
+            pipObj.AddComponent<PictureInPicture_Cam>().ociCamera = __result;
+
         }
     }
 }
