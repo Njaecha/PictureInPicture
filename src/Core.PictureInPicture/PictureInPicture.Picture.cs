@@ -1,7 +1,4 @@
 ﻿using KKAPI.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using UnityEngine;
 
@@ -15,11 +12,16 @@ namespace PictureInPicture
         private string title = "Picture In Picture";
         private bool selecting = false;
 
-        private PictureInPicture_Cam Cam = null;
+        private PictureInPicture_Cam DisplayedPiPCam = null;
 
         void Awake()
         {
             ID = this.GetInstanceID();
+            SetDefaultTexture();
+        }
+
+        private void SetDefaultTexture()
+        {
             // Create a new black texture
             Texture2D tx = new Texture2D(320, 180);
             tx.SetPixels32(new Color32[320 * 180]);
@@ -61,6 +63,14 @@ namespace PictureInPicture
 
         }
 
+        void OnDestroy()
+        {
+            if (DisplayedPiPCam != null)
+            {
+                DisplayedPiPCam.CamDestroyed -= PiPCamDestroyedEventHandler;
+            }
+        }
+
         private void WindowFunction(int WindowID)
         {
             GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
@@ -76,10 +86,10 @@ namespace PictureInPicture
             {
                 resetAspect();
             }
-            if (Cam == null) GUI.enabled = false;
+            if (DisplayedPiPCam == null) GUI.enabled = false;
             if (GUI.Button(new Rect(windowRect.width - 52, 2, 15, 15), "E", buttonStyle))
             {
-                if (Cam != null) Cam.updateACE();
+                if (DisplayedPiPCam != null) DisplayedPiPCam.updateACE();
             }
             GUI.enabled = true;
 
@@ -112,17 +122,26 @@ namespace PictureInPicture
                         SetTexture(tex);
                         SetTitle(Path.GetFileName(file[0]));
                         selecting = false;
-                        Cam = null;
+                        if (DisplayedPiPCam != null)
+                        {
+                            DisplayedPiPCam.CamDestroyed -= PiPCamDestroyedEventHandler;
+                        }
+                        DisplayedPiPCam = null;
                     }
                 }
                 foreach (PictureInPicture_Cam cam in PictureInPicture_Cam.cameras)
                 {
                     if (GUILayout.Button(cam.ociCamera.name, GUILayout.Height(20)))
                     {
+                        if(DisplayedPiPCam != null)
+                        {
+                            DisplayedPiPCam.CamDestroyed -= PiPCamDestroyedEventHandler;
+                        }
                         SetTexture(cam.renderTexture);
                         SetTitle(cam.ociCamera.name);
                         selecting = false;
-                        Cam = cam;
+                        cam.CamDestroyed += PiPCamDestroyedEventHandler;
+                        DisplayedPiPCam = cam;
                     }
                 }
                 GUILayout.EndVertical();
@@ -130,6 +149,11 @@ namespace PictureInPicture
             }
 
             windowRect = IMGUIUtils.DragResizeEatWindow(ID, windowRect);
+        }
+
+        private void PiPCamDestroyedEventHandler(object sender, CamDestroyedEvent e)
+        {
+            SetDefaultTexture();
         }
     }
 }
