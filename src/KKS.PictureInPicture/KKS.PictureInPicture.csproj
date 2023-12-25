@@ -164,7 +164,7 @@
   <Import Project="..\packages\IllusionLibs.KoikatsuSunshine.UnityEngine.UI.2019.4.9\build\IllusionLibs.KoikatsuSunshine.UnityEngine.UI.targets" Condition="Exists('..\packages\IllusionLibs.KoikatsuSunshine.UnityEngine.UI.2019.4.9\build\IllusionLibs.KoikatsuSunshine.UnityEngine.UI.targets')" />
   <Import Project="..\packages\IllusionLibs.KoikatsuSunshine.UnityEngine.UIModule.2019.4.9\build\IllusionLibs.KoikatsuSunshine.UnityEngine.UIModule.targets" Condition="Exists('..\packages\IllusionLibs.KoikatsuSunshine.UnityEngine.UIModule.2019.4.9\build\IllusionLibs.KoikatsuSunshine.UnityEngine.UIModule.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "P:\Koikatsu_Sunshine\BepInEx\plugins\KKS_PictureInPicture.dll"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "D:\Koikatsu\BepInEx\plugins"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\IllusionLibs.KoikatsuSunshine.UnityEngine.ImageConversionModule.2019.4.9\build\IllusionLibs.KoikatsuSunshine.UnityEngine.ImageConversionModule.targets" Condition="Exists('..\packages\IllusionLibs.KoikatsuSunshine.UnityEngine.ImageConversionModule.2019.4.9\build\IllusionLibs.KoikatsuSunshine.UnityEngine.ImageConversionModule.targets')" />
   <Import Project="..\packages\IllusionLibs.KoikatsuSunshine.UnityEngine.TextRenderingModule.2019.4.9\build\IllusionLibs.KoikatsuSunshine.UnityEngine.TextRenderingModule.targets" Condition="Exists('..\packages\IllusionLibs.KoikatsuSunshine.UnityEngine.TextRenderingModule.2019.4.9\build\IllusionLibs.KoikatsuSunshine.UnityEngine.TextRenderingModule.targets')" />

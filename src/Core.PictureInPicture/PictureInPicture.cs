@@ -18,6 +18,7 @@ namespace PictureInPicture
         public static PictureInPicture Instance { get; private set; }
 
         internal ConfigEntry<KeyboardShortcut> addPip { get; set; }
+
         internal ConfigEntry<int> pipHeight { get; set; }
         internal ConfigEntry<int> pipWidth { get; set; }
 
@@ -29,12 +30,10 @@ namespace PictureInPicture
             pipZoo = new GameObject("PiP Zoo");
             pipZoo.transform.SetParent(transform);
             addPip = Config.Bind("Keybinds", "add PiP", new KeyboardShortcut(KeyCode.P, KeyCode.LeftAlt), "Press this add open a Picture in Picture window");
-            pipHeight = Config.Bind("Quality", "height", 720, "Resolution of the picture in picture camera.");
+            pipHeight = Config.Bind("Quality", "height", 720, "Resolution of the picture in picture camera");
             pipHeight.SettingChanged += ResolutionSettingChanged;
-            pipWidth = Config.Bind("Quality", "width", 1280, "Resolution of the picture in picture camera.");
+            pipWidth = Config.Bind("Quality", "width", 1280, "Resolution of the picture in picture camera");
             pipWidth.SettingChanged += ResolutionSettingChanged;
-
-
             Harmony harmony = Harmony.CreateAndPatchAll(typeof(PictureInPicture_Hooks));
         }
 
@@ -48,6 +47,19 @@ namespace PictureInPicture
 
         void Update()
         {
+            //if (addPip.Value.IsDown())
+            //{
+            //    //a = 5
+            //    //b = 10
+            //    // a = b + a = 15
+            //    // b = a - b = 5
+            //    // a = a - b = 10
+            //    pipWidth.Value = pipHeight.Value + pipWidth.Value;
+            //    pipHeight.Value = pipWidth.Value - pipHeight.Value;
+            //    pipWidth.Value = pipWidth.Value - pipHeight.Value;
+            //    Debug.Log("Trying to switch values");
+            //}
+
             if (addPip.Value.IsDown())
             {
                 GameObject pipObject = new GameObject("PiP");

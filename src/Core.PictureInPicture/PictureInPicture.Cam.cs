@@ -56,6 +56,22 @@ namespace PictureInPicture
             this.cam.targetTexture = this.renderTexture;
         }
 
+        public void portraitResolution()
+        {
+            this.renderTexture = new RenderTexture(PictureInPicture.Instance.pipHeight.Value, PictureInPicture.Instance.pipWidth.Value, 32);
+            this.cam.targetTexture = this.renderTexture;
+        }
+        public void landscapeResolution()
+        {
+            this.renderTexture = new RenderTexture(PictureInPicture.Instance.pipWidth.Value, PictureInPicture.Instance.pipHeight.Value, 32);
+            this.cam.targetTexture = this.renderTexture;
+        }
+
+        public void changeFov(float amount)
+        {
+            this.cam.fieldOfView += amount;
+        }
+
         void OnDestroy()
         {
             CamDestroyed?.Invoke(this, new CamDestroyedEvent { ociCamera = ociCamera, cam = cam });

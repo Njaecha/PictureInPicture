@@ -11,6 +11,7 @@ namespace PictureInPicture
         private int ID;
         private string title = "Picture In Picture";
         private bool selecting = false;
+        private bool portrait = false;
 
         private PictureInPicture_Cam DisplayedPiPCam = null;
 
@@ -51,6 +52,24 @@ namespace PictureInPicture
             windowRect.size = new Vector2(windowRect.width, texture.height * (windowRect.width / texture.width)+20);
         }
 
+        public void portraitMode()
+        {
+            portrait = true;
+            DisplayedPiPCam.portraitResolution();
+            SetTexture(DisplayedPiPCam.renderTexture);
+            SetTitle(DisplayedPiPCam.ociCamera.name);
+            resetAspect();
+        }
+
+        public void landscapeMode()
+        {
+            portrait = false;
+            DisplayedPiPCam.landscapeResolution();
+            SetTexture(DisplayedPiPCam.renderTexture);
+            SetTitle(DisplayedPiPCam.ociCamera.name);
+            resetAspect();
+        }
+
         internal static OpenFileDialog.OpenSaveFileDialgueFlags SingleFileFlags =
               OpenFileDialog.OpenSaveFileDialgueFlags.OFN_FILEMUSTEXIST |
               OpenFileDialog.OpenSaveFileDialgueFlags.OFN_LONGNAMES |
@@ -86,6 +105,28 @@ namespace PictureInPicture
             {
                 resetAspect();
             }
+            if (portrait)
+            {
+                if (GUI.Button(new Rect(windowRect.width - 69, 2, 15, 15), "L", buttonStyle))
+                {
+                    landscapeMode();
+                }
+            } else
+            {
+                if (GUI.Button(new Rect(windowRect.width - 69, 2, 15, 15), "P", buttonStyle))
+                {
+                    portraitMode();
+                }
+            }
+            if (GUI.Button(new Rect(windowRect.width - 86, 2, 15, 15), "+", buttonStyle))
+            {
+                DisplayedPiPCam.changeFov(1f);
+            }
+            if (GUI.Button(new Rect(windowRect.width - 103, 2, 15, 15), "-", buttonStyle))
+            {
+                DisplayedPiPCam.changeFov(-1f);
+            }
+
             if (DisplayedPiPCam == null) GUI.enabled = false;
             if (GUI.Button(new Rect(windowRect.width - 52, 2, 15, 15), "E", buttonStyle))
             {
