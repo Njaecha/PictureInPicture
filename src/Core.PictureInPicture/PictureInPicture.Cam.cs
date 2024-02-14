@@ -78,6 +78,26 @@ namespace PictureInPicture
         {
             amplifyColorEffect.CopyFromOther(Studio.Studio.Instance.systemButtonCtrl.amplifyColorEffect);
         }
+
+
+        // doesnt work
+        int rotation = 0;
+        public void Rotate()
+        {
+            if (rotation == 0) rotation = 270;
+            else rotation -= 90;
+
+            if (rotation == 90 || rotation == 270)
+            {
+                renderTexture = new RenderTexture(PictureInPicture.Instance.pipHeight.Value, PictureInPicture.Instance.pipWidth.Value, 32);
+            }
+            else
+            {
+                renderTexture = new RenderTexture(PictureInPicture.Instance.pipWidth.Value, PictureInPicture.Instance.pipHeight.Value, 32);
+            }
+            cam.targetTexture = renderTexture;
+            cam.transform.SetLocalEulerAngles(new Vector3(0, 0, rotation), RotationOrder.OrderXYZ);
+        }
     }
 
     public class CamDestroyedEvent : EventArgs

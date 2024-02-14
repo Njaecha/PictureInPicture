@@ -7,10 +7,12 @@ namespace PictureInPicture
     internal class PictureInPicture_Picture : MonoBehaviour
     {
         private Texture texture;
+        private Texture2D transparentTexture;
         Rect windowRect = new Rect(25,25,360,200);
         private int ID;
         private string title = "Picture In Picture";
         private bool selecting = false;
+        private bool windowsTransparency = false;
 
         private PictureInPicture_Cam DisplayedPiPCam = null;
 
@@ -18,6 +20,10 @@ namespace PictureInPicture
         {
             ID = this.GetInstanceID();
             SetDefaultTexture();
+
+            Texture2D transparentTexture = new Texture2D(2, 2);
+            transparentTexture.SetPixels32(new Color32[] { new Color32(0,0,0,0), new Color32(0, 0, 0, 0) , new Color32(0, 0, 0, 0) , new Color32(0, 0, 0, 0) });
+            transparentTexture.Apply();
         }
 
         private void SetDefaultTexture()
@@ -58,8 +64,14 @@ namespace PictureInPicture
 
         void OnGUI()
         {
+            GUIStyle windowSkin = new GUIStyle(IMGUIUtils.SolidBackgroundGuiSkin.window);
+            if (windowsTransparency)
+            {
+                windowSkin.normal.background = transparentTexture;
+            }
+
             if (windowRect == null) { return; }
-            windowRect = GUI.Window(ID, windowRect, WindowFunction, title, IMGUIUtils.SolidBackgroundGuiSkin.window);
+            windowRect = GUI.Window(ID, windowRect, WindowFunction, title, windowSkin);
 
         }
 
@@ -68,6 +80,16 @@ namespace PictureInPicture
             if (DisplayedPiPCam != null)
             {
                 DisplayedPiPCam.CamDestroyed -= PiPCamDestroyedEventHandler;
+            }
+        }
+
+        // doesnt work as intended
+        public void RotateCam()
+        {
+            if (DisplayedPiPCam != null)
+            {
+                DisplayedPiPCam.Rotate();
+                SetTexture(DisplayedPiPCam.renderTexture);
             }
         }
 
@@ -92,7 +114,10 @@ namespace PictureInPicture
                 if (DisplayedPiPCam != null) DisplayedPiPCam.updateACE();
             }
             GUI.enabled = true;
-
+            if (GUI.Button(new Rect(windowRect.width - 69, 2, 15, 15), "T", buttonStyle))
+            {
+                windowsTransparency = !windowsTransparency;
+            }
             if (GUI.Button(new Rect(2,2, 70, 15), "Source", buttonStyle))
             {
                 selecting = !selecting;

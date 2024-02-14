@@ -13,7 +13,7 @@ namespace PictureInPicture
     {
         public const string PluginName = "PictureInPicture";
         public const string GUID = "org.njaecha.plugins.pictureinpicture";
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.1";
 
         public static PictureInPicture Instance { get; private set; }
 
